@@ -1,33 +1,77 @@
 /* ------------------------------------------------------------------------------------
- Program file: sbaronep4.c
+ Program file: sbaronep5.c
  Author: Stacy Barone
- Date: July 15, 2018
- Assignment: Program #4
- Objective: Write a C program that allows the user to make some simple banking
-            transactions. User will enter their starting balance follwed by the
+ Date: July 29, 2018
+ Assignment: Program #5
+ Objective: Add at least 2 non-trivial functions to Program #4. 
+            Program #4 Objective: Write a C program that allows the user to make 
+            some simple banking transactions. User will enter their starting balance follwed by the
             number of deposits and withdrawls. Then the user will be proted to enter
-            the amount of each transaction. The program wil then print the new balance 
+            the amount of each transaction. The program wil then print the new balance
             as well a related message followed by a bank statement.
  ------------------------------------------------------------------------------------ */
 
 #include <stdio.h>
+/* declare function prototypes */
+
+int numOfD(int);            /*prototype for function to capture number of deposits */
+int numOfW(int);            /*prototype for function to capture number of withdrawls */
+void balanceMessage(float); /*prototype for function to capture number of deposits */
+
+/* function to capture number of deposits */
+int numOfD(int numD)
+{
+    char c; /* Variable to clear buffer */
+
+    printf("\nEnter the number of deposits (0 - 5): ");
+    scanf("%i", &numD);
+    while ((c = getchar() != '\n') && c != EOF); /* clear input buffer */
+
+    numD = numD;
+    return numD;
+}
+
+/* function to capture number of withdrawls */
+int numOfW(int numw)
+{
+    char c; /* Variable to clear buffer */
+
+    printf("\nEnter the number of deposits (0 - 5): ");
+    scanf("%i", &numw);
+    while ((c = getchar() != '\n') && c != EOF); /* clear input buffer */
+
+    numw = numw;
+    return numw;
+}
+
+void balanceMessage(float newBalance)
+{
+
+    if (newBalance >= 50000.00)
+        printf("*** It is time to invest some money! ***\n");
+    else if (newBalance >= 15000.00)
+        printf("*** Maybe you should consider a CD. ***\n");
+    else if (newBalance >= 1000.00)
+        printf("*** Keep up the good work! ***\n");
+    else
+        printf("*** Your balance is getting low! ***\n");
+}
+
 int main(int argc, const char *argv[])
 {
     /* Declare variables */
 
-    int x = 0; /* Loop Control Varable */
-    int i = 0; /* Loop Control Varable */
-    int w = 0; /* Loop Control Varable */
-    int numberOfDeposits; /* Variable to store number of deposits made, entered by user */
-    int numberOfWithdrawls;  /* Variable to store number of withdrawls made, entered by user */
-    float deposits[5];  /* Array variable to store amount of each deposit made, entered by user */
-    float withdrawls[5]; /* Array variable to store amount of each deposit made, entered by user. max: 5 */
+    int x = 0;                 /* Loop Control Varable */
+    int i = 0;                 /* Loop Control Varable */
+    int w = 0;                 /* Loop Control Varable */
+    float deposits[5];         /* Array variable to store amount of each deposit made, entered by user */
+    float withdrawls[5];       /* Array variable to store amount of each deposit made, entered by user. max: 5 */
     float startingBalance = 0; /* Array variable to store amount of each withdrawl made, entered by user. max: 5 */
-    float depositsTotal = 0; /* Variable to store calculated sum of the deposits made */
+    float depositsTotal = 0;   /* Variable to store calculated sum of the deposits made */
     float withdrawlsTotal = 0; /* Variable to store calculated sum of the withdrawls made */
-    float balance = 0; /* Variable to store calculated total of the deposits made minus the sum of the withdrawls made */
-    float newBalance = 0; /* Variable to store calculated starting balance plus the balance (transcational difference of deposits minus withdrawls) */
-    char c; /* Variable to clear buffer */
+    float balance = 0;         /* Variable to store calculated total of the deposits made minus the sum of the withdrawls made */
+    float newBalance = 0;      /* Variable to store calculated starting balance plus the balance (transcational difference of deposits minus withdrawls) */
+    char c;                    /* Variable to clear buffer */
 
     /* Greeting Message */
 
@@ -62,17 +106,14 @@ int main(int argc, const char *argv[])
             {
                 /* Prompt user to enter number of deposits made */
 
-                printf("\nEnter the number of deposits (0 - 5): ");
-                scanf("%i", &numberOfDeposits);
-                while ((c = getchar() != '\n') && c != EOF); /* clear input buffer */
+                int numberOfDeposits = numOfD(1);
 
                 /* Determine if number of deposits entered is valid (between 0-5) */
-
                 if (numberOfDeposits < 0 || numberOfDeposits > 5)
                 {
                     /* if number of deposits is invalid, above 5 or below 0, print error message */
                     /* ensure the increment is not added to the loop control variable and prompt the user to enter the number of deposits again  */
-                    
+
                     printf("*** Invalid number of deposits, please re-enter.\n");
                     x--;
 
@@ -85,10 +126,8 @@ int main(int argc, const char *argv[])
                     for (x = 1; x < 2; x++)
                     {
                         /* Prompt user to enter number of withdrawls made */
-                        
-                        printf("\nEnter number of withdrawls (0 - 5): ");
-                        scanf("%i", &numberOfWithdrawls);
-                        while ((c = getchar() != '\n') && c != EOF); /* clear input buffer */
+
+                        int numberOfWithdrawls = numOfW(1);
 
                         /* Determine if number of withdrawls entered is valid (between 0-5) */
 
@@ -96,7 +135,7 @@ int main(int argc, const char *argv[])
                         {
                             /* if number of withdrawls is invalid, above 5 or below 0, print error message */
                             /* ensure the increment is not added to the loop control variable and prompt the user to enter the number of withdrawls again  */
-                            
+
                             printf("*** Invalid number of withdrawls, please re-enter.\n");
                             x--;
 
@@ -119,7 +158,7 @@ int main(int argc, const char *argv[])
 
                                 /* If the amount of the deposit is invalid, less than or equal to zero, print error message and do not increment desposit array, prompt user to enter amount again */
 
-                                if (deposits[i] <= 0) 
+                                if (deposits[i] <= 0)
                                 {
                                     printf("** Deposit amount must be greater than zero, please re-enter.\n\n");
                                 }
@@ -131,8 +170,9 @@ int main(int argc, const char *argv[])
                                     i++;
                                 }
                             } /* end while loop */
+
                             printf("\n");
-                            
+
                             /* Begin loop to collect amount of each withdrawl based on number of withdrawls entered by user previously */
 
                             while (w < numberOfWithdrawls)
@@ -147,7 +187,7 @@ int main(int argc, const char *argv[])
                                 /* If the amount of the withdrawl is invalid, less than the starting balance */
                                 /* print error message and do not increment withdrawl array, prompt user to enter amount again */
 
-                                if (withdrawls[w] > startingBalance || withdrawlsTotal > startingBalance + depositsTotal)
+                                if (withdrawlsTotal > startingBalance + depositsTotal)
                                 {
                                     printf("*** Withdrawal amount exceeds current balance, please re-enter.\n\n");
 
@@ -157,7 +197,7 @@ int main(int argc, const char *argv[])
                                 {
 
                                     /* If the amount of the withdrawl is valid, add amount to withdrawl total variable and increment to next withdrawl amount prompt */
-                                    
+
                                     withdrawlsTotal = withdrawlsTotal + withdrawls[w];
                                     w++;
                                 }
@@ -171,18 +211,10 @@ int main(int argc, const char *argv[])
 
                             /* print closing balance message and new balance */
 
-                            printf("\n*** The closing balance is $%.2f ***\n", newBalance );
-                            
+                            printf("\n*** The closing balance is $%.2f ***\n", newBalance);
                             /* Print cooresponding bank message based on new balance */
 
-                            if (newBalance >= 50000.00)
-                                printf("*** It is time to invest some money! ***\n");
-                            else if (newBalance >= 15000.00)
-                                printf("*** Maybe you should consider a CD. ***\n");
-                            else if (newBalance >= 1000.00)
-                                printf("*** Keep up the good work! ***\n");
-                            else
-                                printf("*** Your balance is getting low! ***\n");
+                            balanceMessage(newBalance);
 
                             /* print bank record */
 
@@ -201,9 +233,11 @@ int main(int argc, const char *argv[])
                         }
                     }
                 }
-            }/* End For Loop outside of Balance */
+            } /* End For Loop outside of Balance */
             getchar();
             return 0;
-        }/* End if/Else Function for starting Balance */
-    }/* End containing For Loop */
-}/* End Main Function */
+        } /* End if/Else Function for starting Balance */
+    }     /* End containing For Loop */
+} /* End Main Function */
+
+
