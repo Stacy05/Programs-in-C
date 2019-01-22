@@ -17,7 +17,7 @@ int main(void)
     int numberEnteredGrades; /* variable for total number of grades to be entered */
     int i; /* loop control variable */
     int grade; /* variable to capture entered grade */
-    float sum = 0; /* accumilator variable for later calculation of average */
+    float sum = 0; /* accumulator variable for later calculation of average */
     float average = 0; /* variable to store the average of the entered grades */
     char c; /* variables to clear buffer */
 
@@ -52,7 +52,7 @@ int main(void)
             scanf("%i", &grade);
             while ( (c = getchar() != '\n') && c != EOF); /* clear input buffer */
             
-            /* Begin if statement to determine if the grade entered is vaild (between 0 - 100) */
+            /* Begin if statement to determine if the grade entered is valid (between 0 - 100) */
             
             if (grade < 0 || grade > 100)
             {
