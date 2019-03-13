@@ -1,0 +1,220 @@
+/* ------------------------------------------------------------------------------------
+ Program file: sbaronep3.c
+ Author: Stacy Barone
+ Date: February 27, 2019
+ Assignment: Program #3
+ Objective: A program for creating mailing labels. Program prompts the user for the
+ number of labels they want to create (0-10) then prompts the user for information of each
+ label (Name, Address, City, State, and Zip Code. Program then prints the info for
+ each label.
+ ------------------------------------------------------------------------------------ */
+
+#include <stdio.h>
+#include <ctype.h>
+
+/* Variable Declarations and initializations */
+
+char c;               /* variables to clear buffer */
+
+int number_of_labels; /* number of labels entered by user */
+int b;                /* loop control variable used in loop used in prompting and error checking zipcode */
+int f;                /* main loop control variable - used in containing which prompts how many labels and error checking on that number enterd */
+int x;                /* loop control variable used in for loop prompting user label info and gathering user input */
+
+struct information
+{
+    char full_name[35];
+    char address[50];
+    char city[25];
+    char state[3];
+    long int zip_code;
+
+};                     /* Struct to hold mailing label person info:  four char and a long int */
+
+/* Functions */
+
+/* Function safer_gets */
+
+void safer_gets(char array[], int max_chars)
+{
+    /* Declare variables. */
+    /* ------------------ */
+
+    int i;
+
+    /* Read info from input buffer, character by character,   */
+    /* up until the maximum number of possible characters.    */
+    /* ------------------------------------------------------ */
+
+    for (i = 0; i < max_chars; i++)
+    {
+        array[i] = getchar();
+
+        /* If "this" character is the carriage return, exit loop */
+        /* ----------------------------------------------------- */
+
+        if (array[i] == '\n')
+            break;
+
+    } /* end for */
+
+    /* If we have pulled out the most we can based on the size of array, */
+    /* and, if there are more chars in the input buffer,                 */
+    /* clear out the remaining chars in the buffer.                      */
+    /* ----------------------------------------------------------------  */
+
+    if (i == max_chars)
+
+        if (array[i] != '\n')
+            while (getchar() != '\n');
+
+    /* At this point, i is pointing to the element after the last character */
+    /* in the string. Terminate the string with the null terminator.        */
+    /* -------------------------------------------------------------------- */
+
+    array[i] = '\0';
+
+} /* end safer_gets */
+
+
+/* Function safer_gets_upper: safer_gets modified to convert characters to uppercase*/
+
+void safer_gets_upper(char array[], int max_chars)
+{
+    /* Declare variables. */
+
+    int i;
+
+    /* Read info from input buffer, character by character,  */
+    /* up until the maximum number of possible characters and covert to uppercase */
+
+    for (i = 0; i < max_chars; i++)
+    {
+        array[i] = getchar();
+        array[i]= toupper(array[i]);
+
+        /* If "this" character is the carriage return, exit loop */
+
+        if (array[i] == '\n')
+            break;
+
+    } /* end for */
+
+    /* If we have pulled out the most we can based on the size of array, */
+    /* and, if there are more chars in the input buffer,                 */
+    /* clear out the remaining chars in the buffer.                      */
+    /* ----------------------------------------------------------------  */
+
+    if (i == max_chars)
+
+        if (array[i] != '\n')
+            while (getchar() != '\n');
+
+    /* At this point, i is pointing to the element after the last character */
+    /* in the string. Terminate the string with the null terminator.        */
+    /* -------------------------------------------------------------------- */
+
+    array[i] = '\0';
+
+} /* end safer_gets_upper */
+
+
+/* Begin Main */
+
+int main()
+{
+    /* Greeting */
+
+    printf("Welcome to the mailing label generator program.\n");
+
+    /* Struct declaration of person (could be known as individual label data) */
+
+    struct information person[11];
+
+    /* Begin main for loop use to capture, check and increment number of labels  */
+
+    for (f = 1; f < 2; ++f)
+    {
+        /* Prompt user for number of labels they wish to make */
+
+        printf("\nHow many people do you want to generate labels for (0-10)? ");
+        scanf("%i", &number_of_labels);
+        while ((c = getchar() != '\n') && c != EOF); /* clear input buffer. */
+
+        /* If number of labels entered is zero, quit, decrement loop control variable and (break out of loop) run end of program */
+
+        if (number_of_labels == 0)
+        {
+            f--;
+            break;
+        }   /* Else if number of labels entered is greater than 10 or less than 0, display error of input, decrement loop control variable, and reprompt user to enter number of labels */
+        else if (number_of_labels > 10 || number_of_labels < 0)
+        {
+
+            printf("Please enter a number from zero to ten.\n");
+            f--;
+            continue;
+        } /* Else, (number input meets the criterion) increment loop control variable, move on to prompting for label/person data */
+        else
+        {
+            f++;
+
+            /* Begin loop use to prompt, capture, check and increment label/person info (for all number of labels entered) */
+
+            for (x = 0; x < number_of_labels; x++)
+            {
+                printf("\nEnter name: ");
+                safer_gets(person[x].full_name, 35);
+                printf("Enter street address: ");
+                safer_gets(person[x].address, 50);
+                printf("Enter city: ");
+                safer_gets(person[x].city, 35);
+                printf("Enter state: ");
+                safer_gets_upper(person[x].state, 3);
+
+                /* loop for checking proper zip code format */
+
+                for (b = 0; b < 1; b++)
+                {
+                    printf("Enter zip code: ");
+                    scanf("%ld", &person[x].zip_code);
+                    while ((c = getchar() != '\n') && c != EOF); /* clear input buffer. */
+
+                    /* If zip code entered is less than 00001 or greater than 99999, display input error decrement loop control variable, reprompt user zipcode */
+
+                    if (person[x].zip_code < 00001 || person[x].zip_code > 99999)
+                    {
+
+                        printf("\nPlease enter a valid zip code\n");
+                        b--;
+                        continue;
+                    }   /* else, input meets criterion, increment control variable */
+                    else
+                    {
+                        b++;
+                    }
+                }
+            }
+
+            /* Message indicating label data will be printed below */
+
+            printf("\nBelow are your mailing labels:\n\n");
+
+            /* loop for incrementing/looping through person array and printing person/label data */
+
+            for (x = 0; x < number_of_labels; x++)
+
+                printf("%-35s\n%-50s\n%s, %s %05ld\n\n",
+                       person[x].full_name,
+                       person[x].address,
+                       person[x].city,
+                       person[x].state,
+                       person[x].zip_code);
+        }
+
+    }/* End main for loop */
+
+    /* End message */
+    printf("Thank you for using the mailing label generator program.");
+    return 0;
+} /* End main */
