@@ -49,7 +49,7 @@ int main(void)
 
         /* Determine if the number of total grades entered is outside of the declared limits of greater than zero and less than 11 */
 
-        else if (numberEnteredGrades < 0 || numberEnteredGrades > 11)
+        else if (numberEnteredGrades < 0 || numberEnteredGrades > 10)
         {
             /* print error message for invalid grade entered */
             printf("\n*** Invalid number of grades entered. ***\n");
